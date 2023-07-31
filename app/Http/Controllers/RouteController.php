@@ -164,10 +164,35 @@ class RouteController extends Controller
         $dir = $request->input('order.0.dir');
 
         if (empty($request->input('search.value'))) {
-            $table = $collection->offset($start)
+            $table = $collection
+                //added for single column search
+                ->where(function ($query) use ($columns, $request) {
+                    for ($i = 0; $i < sizeof($columns) - 1; $i++) {
+                        $column_search = $request->input("columns.$i.search.value");
+                        if (!empty($column_search)) {
+                            $query->orWhere($columns[$i], 'LIKE', "%{$column_search}%");
+                        }
+                    }
+                    return $query;
+                })
+                //
+                ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
+            //added for single column search
+            $totalFiltered = $collection
+                ->where(function ($query) use ($columns, $request) {
+                    for ($i = 0; $i < sizeof($columns) - 1; $i++) {
+                        $column_search = $request->input("columns.$i.search.value");
+                        if (!empty($column_search)) {
+                            $query->orWhere($columns[$i], 'LIKE', "%{$column_search}%");
+                        }
+                    }
+                    return $query;
+                })
+                ->count();
+            //
         } else {
             $search = $request->input('search.value');
             $totalFiltered = $collection->where(function ($query) use ($columns, $search) {
@@ -175,13 +200,36 @@ class RouteController extends Controller
                     $query->orWhere($col, 'LIKE', "%{$search}%");
                 }
                 return $query;
-            })->count();
+            })
+                //added for single column search
+                ->where(function ($query) use ($columns, $request) {
+                    for ($i = 0; $i < sizeof($columns) - 1; $i++) {
+                        $column_search = $request->input("columns.$i.search.value");
+                        if (!empty($column_search)) {
+                            $query->orWhere($columns[$i], 'LIKE', "%{$column_search}%");
+                        }
+                    }
+                    return $query;
+                })
+                //
+                ->count();
             $table = $collection->where(function ($query) use ($columns, $search) {
                 foreach ($columns as $col) {
                     $query->orWhere($col, 'LIKE', "%{$search}%");
                 }
                 return $query;
             })
+                //added for single column search
+                ->where(function ($query) use ($columns, $request) {
+                    for ($i = 0; $i < sizeof($columns) - 1; $i++) {
+                        $column_search = $request->input("columns.$i.search.value");
+                        if (!empty($column_search)) {
+                            $query->orWhere($columns[$i], 'LIKE', "%{$column_search}%");
+                        }
+                    }
+                    return $query;
+                })
+                //
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
