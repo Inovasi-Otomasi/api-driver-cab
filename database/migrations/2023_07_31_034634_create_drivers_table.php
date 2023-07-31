@@ -18,8 +18,16 @@ return new class extends Migration
             $table->integer('number');
             $table->string('name');
             $table->string('nik');
+            $table->string('no_sim');
             $table->string('rfid');
             $table->foreignId('shift_id');
+            $table->string('address');
+            $table->timestamp('start_working');
+            $table->string('position');
+            $table->string('level_menu');
+            $table->string('status');
+            $table->string('username');
+            $table->string('password');
             $table->timestamps();
         });
     }

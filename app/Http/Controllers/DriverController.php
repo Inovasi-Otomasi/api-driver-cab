@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Throwable;
 
 class DriverController extends Controller
@@ -45,9 +46,18 @@ class DriverController extends Controller
                 'number' => 'integer|required',
                 'name' => 'required|max:255',
                 'nik' => 'required|max:255',
+                'no_sim' => 'required|max:255',
                 'rfid' => 'required|max:255',
                 'shift_id' => 'required|integer',
+                'address' => 'required',
+                'start_working' => 'required',
+                'position' => 'required|max:255',
+                'level_menu' => 'required|max:255',
+                'status' => 'required|max:255',
+                'username' => 'required|max:255',
+                'password' => 'required',
             ]);
+            $validatedData['password'] = Hash::make($validatedData['password']);
             Driver::Create($validatedData);
             return response()->json([
                 "status" => "success",
@@ -99,9 +109,18 @@ class DriverController extends Controller
                 'number' => 'integer|required',
                 'name' => 'required|max:255',
                 'nik' => 'required|max:255',
+                'no_sim' => 'required|max:255',
                 'rfid' => 'required|max:255',
                 'shift_id' => 'required|integer',
+                'address' => 'required',
+                'start_working' => 'required',
+                'position' => 'required|max:255',
+                'level_menu' => 'required|max:255',
+                'status' => 'required|max:255',
+                'username' => 'required|max:255',
+                'password' => 'required',
             ]);
+            $validatedData['password'] = Hash::make($validatedData['password']);
             Driver::where('id', $driver->id)->update($validatedData);
             return response()->json([
                 "status" => "success",
@@ -146,12 +165,19 @@ class DriverController extends Controller
             1 => 'drivers.number',
             2 => 'drivers.name',
             3 => 'drivers.nik',
-            4 => 'drivers.rfid',
-            5 => 'drivers.shift_id',
-            6 => 'shifts.shift_start',
-            7 => 'shifts.shift_end',
-            8 => 'drivers.created_at',
-            9 => 'drivers.updated_at',
+            4 => 'drivers.no_sim',
+            5 => 'drivers.rfid',
+            6 => 'drivers.shift_id',
+            7 => 'shifts.shift_start',
+            8 => 'shifts.shift_end',
+            9 => 'shifts.address',
+            10 => 'shifts.start_working',
+            11 => 'shifts.position',
+            12 => 'shifts.level_menu',
+            13 => 'shifts.status',
+            14 => 'shifts.username',
+            15 => 'drivers.created_at',
+            16 => 'drivers.updated_at',
         );
         $collection = DB::table('drivers')->leftJoin('shifts', 'drivers.shift_id', '=', 'shifts.id');
         // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
@@ -246,10 +272,17 @@ class DriverController extends Controller
                 $nestedData[] = $row->number;
                 $nestedData[] = $row->name;
                 $nestedData[] = $row->nik;
+                $nestedData[] = $row->no_sim;
                 $nestedData[] = $row->rfid;
                 $nestedData[] = $row->shift_id;
                 $nestedData[] = $row->shift_start;
                 $nestedData[] = $row->shift_end;
+                $nestedData[] = $row->address;
+                $nestedData[] = $row->start_working;
+                $nestedData[] = $row->position;
+                $nestedData[] = $row->level_menu;
+                $nestedData[] = $row->status;
+                $nestedData[] = $row->username;
                 $nestedData[] = $row->created_at;
                 $nestedData[] = $row->updated_at;
                 $data[] = $nestedData;
