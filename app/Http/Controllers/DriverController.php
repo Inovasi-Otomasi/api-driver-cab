@@ -170,16 +170,17 @@ class DriverController extends Controller
             6 => 'drivers.shift_id',
             7 => 'shifts.shift_start',
             8 => 'shifts.shift_end',
-            9 => 'shifts.address',
-            10 => 'shifts.start_working',
-            11 => 'shifts.position',
-            12 => 'shifts.level_menu',
-            13 => 'shifts.status',
-            14 => 'shifts.username',
+            9 => 'drivers.address',
+            10 => 'drivers.start_working',
+            11 => 'drivers.position',
+            12 => 'drivers.level_menu',
+            13 => 'drivers.status',
+            14 => 'drivers.username',
             15 => 'drivers.created_at',
             16 => 'drivers.updated_at',
         );
-        $collection = DB::table('drivers')->leftJoin('shifts', 'drivers.shift_id', '=', 'shifts.id');
+        $collection = DB::table('drivers')->leftJoin('shifts', 'drivers.shift_id', '=', 'shifts.id')
+            ->select('drivers.*', 'shifts.shift_start', 'shifts.shift_end');
         // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
         // $collection = Driver::with('shift');
         $totalData = $collection->count();
