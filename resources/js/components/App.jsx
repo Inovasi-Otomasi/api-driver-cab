@@ -3,7 +3,7 @@ import React from "react";
 const App = () => {
     return (
         <div>
-            <h1>Laravel react test</h1>
+            <h1>Laravel react testttasdsadasdsaasdyttt</h1>
         </div>
     );
 };
