@@ -16,7 +16,20 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app" parameters="{{ json_encode(['test' => 'hehe']) }}"></div>
+    {{-- <script src="/main.js"></script> --}}
+    {{-- <script src="{{ asset('js/app.jsx') }}"></script> --}}
+    {{-- <script>
+        window.onload = function() {
+            if (window.jQuery) {
+                // jQuery is loaded  
+                alert("Yeah!");
+            } else {
+                // jQuery is not loaded
+                alert("Doesn't Work");
+            }
+        }
+    </script> --}}
 </body>
 
 </html>
