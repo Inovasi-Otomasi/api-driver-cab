@@ -14,7 +14,4 @@ class Driver extends Model
     {
         return $this->belongsTo(Shift::class);
     }
-    protected $hidden = [
-        'password',
-    ];
 }
