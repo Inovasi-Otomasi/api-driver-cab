@@ -46,8 +46,10 @@ class RouteController extends Controller
                 'code' => 'required|max:255',
                 'start_point' => 'required|max:255',
                 'end_point' => 'required|max:255',
-                'total_income' => 'required|numeric'
+                'complete_route' => 'required|max:2048',
+                'coordinates' => 'required',
             ]);
+            $validatedData['coordinates'] = json_encode($validatedData['coordinates']);
             Route::Create($validatedData);
             return response()->json([
                 "status" => "success",
@@ -100,7 +102,8 @@ class RouteController extends Controller
                 'code' => 'required|max:255',
                 'start_point' => 'required|max:255',
                 'end_point' => 'required|max:255',
-                'total_income' => 'required|numeric'
+                'complete_route' => 'required|max:2048',
+                'coordinates' => 'required',
             ]);
             Route::where('id', $route->id)->update($validatedData);
             return response()->json([
@@ -147,9 +150,8 @@ class RouteController extends Controller
             2 => 'code',
             3 => 'start_point',
             4 => 'end_point',
-            5 => 'total_income',
-            6 => 'created_at',
-            7 => 'updated_at',
+            5 => 'created_at',
+            6 => 'updated_at',
         );
         $collection = DB::table('routes');
         // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
@@ -245,7 +247,6 @@ class RouteController extends Controller
                 $nestedData[] = $row->code;
                 $nestedData[] = $row->start_point;
                 $nestedData[] = $row->end_point;
-                $nestedData[] = $row->total_income;
                 $nestedData[] = $row->created_at;
                 $nestedData[] = $row->updated_at;
                 $data[] = $nestedData;

@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('code');
             $table->string('start_point');
             $table->string('end_point');
-            $table->double('total_income');
+            $table->string('complete_route');
+            $table->json('coordinates');
+
+            // $table->double('total_income');
             $table->timestamps();
         });
     }
