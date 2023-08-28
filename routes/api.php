@@ -57,5 +57,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('1.0.0/shifts_datatables', [ShiftController::class, 'shiftList']);
         Route::post('1.0.0/routes_datatables', [RouteController::class, 'routeList']);
     });
-    Route::post('logout', [APILoginController::class, 'logout'])->name('logout');
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
