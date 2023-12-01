@@ -42,10 +42,13 @@ class ShiftController extends Controller
         //
         try {
             $validatedData = $request->validate([
-                'number' => 'integer|required',
                 'name' => 'required|max:255',
-                'shift_start' => 'required',
-                'shift_end' => 'required',
+                'remark' => '',
+                'date' => 'required',
+                'tap_in_time' => 'required',
+                'tap_out_time' => 'required',
+                // 'shift_start' => 'required',
+                // 'shift_end' => 'required',
             ]);
             Shift::Create($validatedData);
             return response()->json([
@@ -95,10 +98,11 @@ class ShiftController extends Controller
         //
         try {
             $validatedData = $request->validate([
-                'number' => 'integer|required',
-                'name' => 'required|max:255',
-                'shift_start' => 'required',
-                'shift_end' => 'required',
+                'name' => '',
+                'remark' => '',
+                'date' => '',
+                'tap_in_time' => '',
+                'tap_out_time' => '',
             ]);
             Shift::where('id', $shift->id)->update($validatedData);
             return response()->json([
@@ -108,7 +112,7 @@ class ShiftController extends Controller
         } catch (Throwable $e) {
             return response()->json([
                 "status" => "failed",
-                "message" => "Cannot edit shift"
+                "message" => "Cannot add shift" . ", " . $e->getMessage()
             ], 400);
         }
     }
@@ -141,14 +145,22 @@ class ShiftController extends Controller
         // dd($request);
         $columns = array(
             0 => 'id',
-            1 => 'number',
-            2 => 'name',
-            3 => 'shift_start',
-            4 => 'shift_end',
-            5 => 'created_at',
-            6 => 'updated_at',
+            1 => 'name',
+            2 => 'date',
+            3 => 'tap_in_time',
+            4 => 'tap_out_time',
+            5 => 'remark',
+
         );
+        // $start_date = $request->input('start_date');
+        // $end_date = $request->input('end_date');
         $collection = DB::table('shifts');
+        // ->select($columns)->where([['date', '>=', $start_date], ['date', '<=' . $end_date]]);
+        // ->select($columns)
+        // ->where([
+        //     ['shifts.date', '>=' . $start_date],
+        //     ['shifts.date', '<=' . $end_date],
+        // ]);
         // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
         // $collection = Driver::with('shift');
         $totalData = $collection->count();
@@ -239,12 +251,12 @@ class ShiftController extends Controller
             foreach ($table as $row) {
                 $nestedData = [];
                 $nestedData[] = $row->id;
-                $nestedData[] = $row->number;
                 $nestedData[] = $row->name;
-                $nestedData[] = $row->shift_start;
-                $nestedData[] = $row->shift_end;
-                $nestedData[] = $row->created_at;
-                $nestedData[] = $row->updated_at;
+                $nestedData[] = $row->date;
+                $nestedData[] = $row->tap_in_time;
+                $nestedData[] = $row->tap_out_time;
+                $nestedData[] = $row->remark;
+
                 $data[] = $nestedData;
             }
         }

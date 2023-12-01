@@ -43,13 +43,13 @@ class RouteController extends Controller
         try {
             $validatedData = $request->validate([
                 'number' => 'integer|required',
-                'code' => 'required|max:255',
-                'start_point' => 'required|max:255',
-                'end_point' => 'required|max:255',
-                'complete_route' => 'required|max:2048',
-                'coordinates' => 'required',
+                'code' => '',
+                'start_point' => '',
+                'end_point' => '',
+                'complete_route' => '',
+
             ]);
-            $validatedData['coordinates'] = json_encode($validatedData['coordinates']);
+            $validatedData['coordinates'] = json_encode($request->coordinates);
             Route::Create($validatedData);
             return response()->json([
                 "status" => "success",
@@ -58,7 +58,7 @@ class RouteController extends Controller
         } catch (Throwable $e) {
             return response()->json([
                 "status" => "failed",
-                "message" => "Cannot add route"
+                "message" => "Cannot add route" . ", " . $e->getMessage()
             ], 400);
         }
     }
@@ -99,11 +99,11 @@ class RouteController extends Controller
         try {
             $validatedData = $request->validate([
                 'number' => 'integer|required',
-                'code' => 'required|max:255',
-                'start_point' => 'required|max:255',
-                'end_point' => 'required|max:255',
-                'complete_route' => 'required|max:2048',
-                'coordinates' => 'required',
+                'code' => 'max:255',
+                'start_point' => 'max:255',
+                'end_point' => 'max:255',
+                'complete_route' => 'max:2048',
+                'coordinates' => '',
             ]);
             Route::where('id', $route->id)->update($validatedData);
             return response()->json([

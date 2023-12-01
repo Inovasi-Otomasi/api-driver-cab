@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
-            $table->integer('number');
             $table->string('name');
-            $table->time('shift_start');
-            $table->time('shift_end');
+            $table->date('date');
+            $table->time('tap_in_time');
+            $table->time('tap_out_time');
+            $table->string('remark');
             $table->timestamps();
         });
     }

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->integer('number');
             $table->string('code');
-            $table->string('start_point');
-            $table->string('end_point');
+            $table->string('start_point')->nullable();
+            $table->string('end_point')->nullable();
             $table->string('complete_route');
-            $table->json('coordinates');
+            $table->json('coordinates')->nullable();
 
             // $table->double('total_income');
             $table->timestamps();

@@ -43,21 +43,16 @@ class DriverController extends Controller
         //
         try {
             $validatedData = $request->validate([
-                'number' => 'integer|required',
-                'name' => 'required|max:255',
-                'nik' => 'required|max:255',
-                'no_sim' => 'required|max:255',
-                'rfid' => 'required|max:255',
-                'shift_id' => 'required|integer',
-                'address' => 'required',
-                'start_working' => 'required',
-                'position' => 'required|max:255',
-                'level_menu' => 'required|max:255',
-                'status' => 'required|max:255',
-                'username' => 'required|max:255',
-                'password' => 'required',
+                'number' => 'required|max:255',
+                'name' => '',
+                'nik' => '',
+                'no_sim' => '',
+                'rfid' => '',
+                'address' => '',
+                'start_working' => '',
+                'status' => '',
             ]);
-            $validatedData['password'] = Hash::make($validatedData['password']);
+
             Driver::Create($validatedData);
             return response()->json([
                 "status" => "success",
@@ -106,21 +101,17 @@ class DriverController extends Controller
         //
         try {
             $validatedData = $request->validate([
-                'number' => 'integer|required',
-                'name' => 'required|max:255',
-                'nik' => 'required|max:255',
-                'no_sim' => 'required|max:255',
-                'rfid' => 'required|max:255',
-                'shift_id' => 'required|integer',
-                'address' => 'required',
-                'start_working' => 'required',
-                'position' => 'required|max:255',
-                'level_menu' => 'required|max:255',
-                'status' => 'required|max:255',
-                'username' => 'required|max:255',
-                'password' => 'required',
+                'number' => 'required|max:255',
+                'name' => '',
+                'nik' => '',
+                'no_sim' => '',
+                'rfid' => '',
+                'address' => '',
+                'start_working' => '',
+                'status' => '',
+
             ]);
-            $validatedData['password'] = Hash::make($validatedData['password']);
+
             Driver::where('id', $driver->id)->update($validatedData);
             return response()->json([
                 "status" => "success",
@@ -167,20 +158,13 @@ class DriverController extends Controller
             3 => 'drivers.nik',
             4 => 'drivers.no_sim',
             5 => 'drivers.rfid',
-            6 => 'drivers.shift_id',
-            7 => 'shifts.shift_start',
-            8 => 'shifts.shift_end',
-            9 => 'drivers.address',
-            10 => 'drivers.start_working',
-            11 => 'drivers.position',
-            12 => 'drivers.level_menu',
-            13 => 'drivers.status',
-            14 => 'drivers.username',
-            15 => 'drivers.created_at',
-            16 => 'drivers.updated_at',
+            6 => 'drivers.address',
+            7 => 'drivers.start_working',
+            8 => 'drivers.status',
+            9 => 'drivers.created_at',
+            10 => 'drivers.updated_at',
         );
-        $collection = DB::table('drivers')->leftJoin('shifts', 'drivers.shift_id', '=', 'shifts.id')
-            ->select('drivers.*', 'shifts.shift_start', 'shifts.shift_end');
+        $collection = DB::table('drivers');
         // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
         // $collection = Driver::with('shift');
         $totalData = $collection->count();
@@ -276,15 +260,9 @@ class DriverController extends Controller
                 $nestedData[] = $row->nik;
                 $nestedData[] = $row->no_sim;
                 $nestedData[] = $row->rfid;
-                $nestedData[] = $row->shift_id;
-                $nestedData[] = $row->shift_start;
-                $nestedData[] = $row->shift_end;
                 $nestedData[] = $row->address;
                 $nestedData[] = $row->start_working;
-                $nestedData[] = $row->position;
-                $nestedData[] = $row->level_menu;
                 $nestedData[] = $row->status;
-                $nestedData[] = $row->username;
                 $nestedData[] = $row->created_at;
                 $nestedData[] = $row->updated_at;
                 $data[] = $nestedData;

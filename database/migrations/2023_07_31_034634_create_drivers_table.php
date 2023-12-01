@@ -15,19 +15,14 @@ return new class extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->integer('number');
+            $table->string('number');
             $table->string('name');
-            $table->string('nik');
-            $table->string('no_sim');
+            $table->string('nik')->nullable();
+            $table->string('no_sim')->nullable();
             $table->string('rfid');
-            $table->foreignId('shift_id');
-            $table->string('address');
-            $table->timestamp('start_working');
-            $table->string('position');
-            $table->string('level_menu');
+            $table->string('address')->nullable();
+            $table->timestamp('start_working')->nullable();
             $table->string('status');
-            $table->string('username');
-            $table->string('password');
             $table->timestamps();
         });
     }
