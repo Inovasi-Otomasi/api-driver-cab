@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('end_point')->nullable();
             $table->string('complete_route');
             $table->json('coordinates')->nullable();
+            $table->json('vehicles')->nullable();
 
             // $table->double('total_income');
             $table->timestamps();

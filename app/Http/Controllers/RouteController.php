@@ -50,6 +50,7 @@ class RouteController extends Controller
 
             ]);
             $validatedData['coordinates'] = json_encode($request->coordinates);
+            $validatedData['vehicles'] = json_encode($request->vehicles);
             Route::Create($validatedData);
             return response()->json([
                 "status" => "success",
@@ -104,6 +105,7 @@ class RouteController extends Controller
                 'end_point' => 'max:255',
                 'complete_route' => 'max:2048',
                 'coordinates' => '',
+                'vehicles' => '',
             ]);
             Route::where('id', $route->id)->update($validatedData);
             return response()->json([
@@ -150,8 +152,11 @@ class RouteController extends Controller
             2 => 'code',
             3 => 'start_point',
             4 => 'end_point',
-            5 => 'created_at',
-            6 => 'updated_at',
+            5 => 'complete_route',
+            6 => 'coordinates',
+            7 => 'vehicles',
+            8 => 'created_at',
+            9 => 'updated_at',
         );
         $collection = DB::table('routes');
         // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
@@ -248,6 +253,9 @@ class RouteController extends Controller
                 $nestedData[] = $row->code;
                 $nestedData[] = $row->start_point;
                 $nestedData[] = $row->end_point;
+                $nestedData[] = $row->complete_route;
+                $nestedData[] = $row->coordinates;
+                $nestedData[] = $row->vehicles;
                 $nestedData[] = $row->created_at;
                 $nestedData[] = $row->updated_at;
                 $data[] = $nestedData;
