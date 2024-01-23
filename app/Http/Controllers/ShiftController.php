@@ -152,16 +152,20 @@ class ShiftController extends Controller
             5 => 'remark',
 
         );
-        // $start_date = $request->input('start_date');
-        // $end_date = $request->input('end_date');
-        $collection = DB::table('shifts');
-        // ->select($columns)->where([['date', '>=', $start_date], ['date', '<=' . $end_date]]);
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        // $collection = DB::table('shifts')
+        // ->select($columns)->where([['date', '>=', $start_date], ['date', '<=' . $end_date]])
         // ->select($columns)
         // ->where([
         //     ['shifts.date', '>=' . $start_date],
         //     ['shifts.date', '<=' . $end_date],
         // ]);
-        // $collection = DB::table('shifts')->leftJoin('drivers', 'shifts.id', '=', 'drivers.shift_id');;
+        $collection = DB::table('shifts')
+        ->where([
+            ['shifts.date', '>=', $start_date],
+            ['shifts.date', '<=',  $end_date],
+        ]);
         // $collection = Driver::with('shift');
         $totalData = $collection->count();
 
