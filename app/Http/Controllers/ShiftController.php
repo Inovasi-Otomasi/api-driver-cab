@@ -44,6 +44,7 @@ class ShiftController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|max:255',
                 'remark' => '',
+                'notes' => '',
                 'date' => 'required',
                 'tap_in_time' => 'required',
                 'tap_out_time' => 'required',
@@ -100,6 +101,7 @@ class ShiftController extends Controller
             $validatedData = $request->validate([
                 'name' => '',
                 'remark' => '',
+                'notes' => '',
                 'date' => '',
                 'tap_in_time' => '',
                 'tap_out_time' => '',
@@ -150,6 +152,7 @@ class ShiftController extends Controller
             3 => 'tap_in_time',
             4 => 'tap_out_time',
             5 => 'remark',
+            5 => 'notes',
 
         );
         $start_date = $request->input('start_date');
@@ -162,10 +165,10 @@ class ShiftController extends Controller
         //     ['shifts.date', '<=' . $end_date],
         // ]);
         $collection = DB::table('shifts')
-        ->where([
-            ['shifts.date', '>=', $start_date],
-            ['shifts.date', '<=',  $end_date],
-        ]);
+            ->where([
+                ['shifts.date', '>=', $start_date],
+                ['shifts.date', '<=',  $end_date],
+            ]);
         // $collection = Driver::with('shift');
         $totalData = $collection->count();
 
@@ -260,6 +263,7 @@ class ShiftController extends Controller
                 $nestedData[] = $row->tap_in_time;
                 $nestedData[] = $row->tap_out_time;
                 $nestedData[] = $row->remark;
+                $nestedData[] = $row->notes;
 
                 $data[] = $nestedData;
             }

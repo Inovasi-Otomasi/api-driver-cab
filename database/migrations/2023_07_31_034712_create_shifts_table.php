@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('tap_in_time');
             $table->time('tap_out_time');
             $table->string('remark');
+            $table->string('notes');
             $table->timestamps();
         });
     }
