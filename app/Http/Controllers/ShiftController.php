@@ -43,6 +43,7 @@ class ShiftController extends Controller
         try {
             $validatedData = $request->validate([
                 'name' => 'required|max:255',
+                'number' => 'required|max:255',
                 'remark' => '',
                 'notes' => '',
                 'date' => 'required',
@@ -54,12 +55,12 @@ class ShiftController extends Controller
             Shift::Create($validatedData);
             return response()->json([
                 "status" => "success",
-                "message" => "Driver added"
+                "message" => "Log Absen added"
             ], 200);
         } catch (Throwable $e) {
             return response()->json([
                 "status" => "failed",
-                "message" => "Cannot add shift"
+                "message" => "Cannot add Log Absen"
             ], 400);
         }
     }
@@ -148,11 +149,12 @@ class ShiftController extends Controller
         $columns = array(
             0 => 'id',
             1 => 'name',
-            2 => 'date',
-            3 => 'tap_in_time',
-            4 => 'tap_out_time',
-            5 => 'remark',
-            5 => 'notes',
+            2 => 'number',
+            3 => 'date',
+            4 => 'tap_in_time',
+            5 => 'tap_out_time',
+            6 => 'remark',
+            7 => 'notes',
 
         );
         $start_date = $request->input('start_date');
@@ -259,6 +261,7 @@ class ShiftController extends Controller
                 $nestedData = [];
                 $nestedData[] = $row->id;
                 $nestedData[] = $row->name;
+                $nestedData[] = $row->number;
                 $nestedData[] = $row->date;
                 $nestedData[] = $row->tap_in_time;
                 $nestedData[] = $row->tap_out_time;

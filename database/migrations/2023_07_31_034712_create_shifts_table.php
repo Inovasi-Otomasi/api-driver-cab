@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
+            $table->string('number');
             $table->string('name');
             $table->date('date');
             $table->time('tap_in_time');
