@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -14,11 +15,16 @@ class ShiftController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $shift = Shift::all();
-        return response()->json($shift, 200);
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $table = DB::table('shifts')->where([
+            ['shifts.date', '>=', $start_date],
+            ['shifts.date', '<=', $end_date],
+        ])->get();
+        return response()->json($table, Response::HTTP_OK); // Return the data as JSON
     }
 
     /**
@@ -42,13 +48,13 @@ class ShiftController extends Controller
         //
         try {
             $validatedData = $request->validate([
-                'name' => 'required|max:255',
+                'name' => '',
                 'number' => 'required|max:255',
                 'remark' => '',
                 'notes' => '',
                 'date' => 'required',
                 'tap_in_time' => 'required',
-                'tap_out_time' => 'required',
+                'tap_out_time' => '',
                 // 'shift_start' => 'required',
                 // 'shift_end' => 'required',
             ]);
@@ -60,7 +66,7 @@ class ShiftController extends Controller
         } catch (Throwable $e) {
             return response()->json([
                 "status" => "failed",
-                "message" => "Cannot add Log Absen"
+                "message" => "Cannot add Log Absen" . ", " . $e->getMessage()
             ], 400);
         }
     }
@@ -106,6 +112,7 @@ class ShiftController extends Controller
                 'date' => '',
                 'tap_in_time' => '',
                 'tap_out_time' => '',
+                'notes' => '',
             ]);
             Shift::where('id', $shift->id)->update($validatedData);
             return response()->json([

@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
             $table->string('number');
-            $table->string('name');
+            $table->string('name')->nullable();;
             $table->date('date');
             $table->time('tap_in_time');
-            $table->time('tap_out_time');
-            $table->string('remark');
-            $table->string('notes');
+            $table->time('tap_out_time')->nullable();;
+            $table->string('remark')->nullable();;
+            $table->string('notes')->nullable();;
             $table->timestamps();
         });
     }
